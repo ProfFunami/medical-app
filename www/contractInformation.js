@@ -1,4 +1,4 @@
-const HospitalContractAddress = "0x7ee7a263f47a3732cfe9ac675bc1621ea6afb8c1"; 
+const HospitalContractAddress = "0xd2b37179213b841df976045f979da12ecdb73ab0"; 
 
 const HospitalContractABI = [
 	{
@@ -182,6 +182,10 @@ const ExaminationContractABI = [
 			{
 				"name": "",
 				"type": "uint256"
+			},
+			{
+				"name": "",
+				"type": "bool"
 			},
 			{
 				"name": "",
