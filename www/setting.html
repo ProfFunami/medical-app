@@ -1,0 +1,43 @@
+<ons-page id="setting">
+    <ons-toolbar>
+      <div class="center">アカウント</div>
+    </ons-toolbar>
+
+    <div class="item">
+      <h2>アドレス</h2>
+      <h3 id="yourAddress"></h3>
+    </div>
+    <div class="item">
+      <h2>秘密鍵</h2>
+      <h3 id="yourPrivateKey"></h3>
+    </div>
+    <div class="item">
+      <h2>残高（ETH）</h2>
+      <h3 id="yourBalance"></h3>
+    </div>
+    <div class="item">
+      <h2>秘密鍵のインポート</h2>
+      <ons-input id="privateKeyForm" modifier="underbar"></ons-input>
+      <p style="margin-top: 30px;">
+        <ons-button id="setAccountButton" modifier="outline" onclick="setAccount()"> Input <ons-button>
+      </p>
+    </div>
+
+    <script>
+      outputData();
+      function outputData(){
+        $("#yourAddress").text(localStorage.getItem("address"));
+        $("#yourPrivateKey").text(localStorage.getItem("privateKey"));
+        web3.eth.getBalance(localStorage.getItem("address")).then(function(balance){
+          $("#yourBalance").text(balance/1000000000000000000 + " ETH");
+        });
+      }
+      function setAccount(){
+        myPrivateKey = $("#privateKeyForm").val();
+        myAddress = web3.eth.accounts.privateKeyToAccount(myPrivateKey).address;
+        localStorage.setItem("privateKey", myPrivateKey); 
+        localStorage.setItem("address", myAddress); 
+        outputData();
+      };
+    </script>
+</ons-page>

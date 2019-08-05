@@ -1,0 +1,87 @@
+<ons-page id="page1">
+    <ons-toolbar>
+        <div class="center">受付</div>
+    </ons-toolbar>
+    <div class="item">
+        <h2>患者情報</h2>
+        <h3>以下の内容を確認した上でデプロイを行う</h3>
+        <h3><span class=".itemTitle7">項目1：</span></h3>
+        <ul id="patientItem"></ul>
+        <h3><span class=".itemTitle10">国名コード(3文字)とパスポート番号</span>  <ons-input id="passportNo" placeholder="発行国+旅券番号" modifier="underbar" value="JPN_AB1234567" style="margin-bottom: 30px;"></ons-input></h3>
+    </div>
+
+    <ons-row>
+        <ons-col width="50%" style="text-align: center;"><ons-button id="readQRCodeButton" modifier="outline" onclick="readPatientDataFromQR()" style="width:95%;"><ons-icon icon="fa-qrcode"></ons-icon> 患者情報の読み込み</ons-button></ons-col>
+        <ons-col style="text-align: center;"><ons-button id="deployButton" modifier="outline" onclick="deploy()" disabled="true" style="width:95%;"><ons-icon icon="fa-cloud-upload-alt"></ons-icon> スマートコントラクトのデプロイ</ons-button></ons-col>
+    </ons-row>
+
+    <script> 
+    ons.getScriptPage().onInit = function () {
+        this.onShow = function () {
+            //console.log("onShow page2");
+        }
+        this.onHide = function () {
+            //console.log("onHide page2");
+        }
+    } 
+
+    let patientData;
+    let patientSignature;
+    let patientPassPhrase;
+
+    // イベントのキャッチ設定
+    hospitalContractInstance.events.StartExamination({}, function(error, event){
+      let contractAddress = event.returnValues.contractAddress;
+      let hospitalAddress = event.returnValues.hospitalAddress;
+      let patientAddress  = event.returnValues.patientAddress; 
+      if(hospitalAddress == myAddress){
+              examinationContractInstance.options.address = contractAddress;
+              $("#patientItem").empty();
+              hideModal();
+              pushPage1('./detail.html'); 
+      }
+    });
+
+    async function deploy() {
+      showModal("Deploying..."); 
+      passportNo = $("#passportNo").val();
+      // パスポート番号の暗号化（病院固有の鍵）
+      let encryptedPassportNo = CryptoJS.AES.encrypt(passportNo, myPassPhrase).toString();
+      let encryptedPatientPassPhrase = CryptoJS.AES.encrypt(patientPassPhrase, myPassPhrase).toString();
+      // トランザクションのデータ部にくっつけるバイトコードを生成
+      const encodedABI = hospitalContractInstance.methods.startExamination(encryptedPassportNo, patientData, patientSignature, encryptedPatientPassPhrase).encodeABI();
+       
+          // gasの使用量を計算
+          let gasAmount = await hospitalContractInstance.methods.startExamination(encryptedPassportNo, patientData, patientSignature, encryptedPatientPassPhrase).estimateGas();
+          gasAmount = gasAmount + 500000;
+          // トランザクションにローカルの秘密鍵で署名
+          let signedtx = await web3.eth.accounts.signTransaction({to: HospitalContractAddress, data: encodedABI, gas: gasAmount}, myPrivateKey);
+          // 署名済みトランザクションを送信
+          let receipt = await web3.eth.sendSignedTransaction(signedtx.rawTransaction);
+    };
+
+    function readPatientDataFromQR() {
+        cordova.plugins.barcodeScanner.scan(function (result) {
+            // キャンセルボタンを押したときの挙動は正常なのでここが呼ばれる→if文で返す
+            if(result.text == "") return;
+            const sourceArray = result.text.split(',');
+            const key = sourceArray[0];
+            const crypto = sourceArray[1];
+            const sign = sourceArray[2]; 
+            // 復号化
+            const decrypted = CryptoJS.AES.decrypt(crypto, key);
+            const decryptedStrings = decrypted.toString(CryptoJS.enc.Utf8);
+            const patientDataJson = JSON.parse(decryptedStrings);
+            $("#patientItem").empty(); 
+            for(let key in patientDataJson) {
+                $("#patientItem").append("<li>" + key + "：" + patientDataJson[key] + "</li>");
+            }
+            patientData = crypto;
+            patientPassPhrase = key;
+            patientSignature = sign;
+            // デプロイボタンを押せるようにする
+            $("#deployButton")[0].disabled = false;
+        },function (error) {console.log(error);}); 
+    } 
+    </script>
+</ons-page>
