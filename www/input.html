@@ -6,7 +6,7 @@
         </p>
         <p>
           <h3>国籍</h3>
-        <ons-select id="country" onchange="editSelects(event)">
+        <ons-select id="country">
           <option value="">Country...</option>
                 <option value="Afganistan">Afghanistan</option>
                 <option value="Albania">Albania</option>
@@ -275,18 +275,21 @@
         </p>
         <p>
           <h3>医療保険加入の有無（公的および民間）</h3>
+          
             <label class="left">
-              <ons-radio name="color" input-id="medical_insurance1" value="YES" checked></ons-radio>
-            
+              <ons-radio name="yn" input-id="medical_insurance1" value="YES" checked></ons-radio>
             <label for="medical_insurance1" class="center">
               <span style="margin-right:100px;">YES</span>
             </label>
-          
-              <ons-radio name="color" input-id="medical_insurance2" value="NO"></ons-radio>
+              <ons-radio name="yn" input-id="medical_insurance2" value="NO"></ons-radio>
             </label>
             <label for="medical_insurance2" class="center"> 
               NO
             </label>
+        </p>
+        <p>
+          <h3>支払い方法</h3>
+          <ons-input style="width: 600px;" id="method_of_paymnt" modifier="underbar" placeholder="EC20" float></ons-input>
         </p>
         <p>
           <h3>宗教上の要望</h3>

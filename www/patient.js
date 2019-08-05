@@ -23,6 +23,27 @@ HospitalContractInstance.events.StartExamination({}, function(error, event){
 	localStorage.setItem("contractAddress", event.returnValues.contractAddress);
 });
 
+function check(obj){
+  for(let k of Object.keys(obj)) {
+    if(k=="length of stay"||
+    k=="religious requests"||
+    k=="acquaintance"||
+    k=="others") {continue;}
+    else if(obj[k]==""||obj[k]==null){
+      return false;
+    }
+  }
+  return true;
+}
+
+function buttonClick(_radio) {
+    for(var i = 0; i < _radio.length; i++) {
+        if(_radio[i].checked) {
+          return _radio[i].value
+        }
+    }
+}
+
 function regist() {
     const obj = {
             "name": $('#name').val(),
@@ -31,17 +52,27 @@ function regist() {
             "destination": $('#destination').val(),
             "work place": $('#work_place').val(),
             "length of stay": $('#length_of_stay').val(),
-            "medical insurance": $('#medical_insurance').val(),
+            "medical insurance": buttonClick(document.getElementsByName('yn')),
             "method of payment": $('#method_of_paymnt').val(),
             "religious requests": $('#religious_requests').val(),
             "emergency contact": $('#emergency_contact').val(),
             "acquaintance": $('#acquaintance').val(),
             "others": $('#others').val()
         };
-        
-        //JSON化
+
+
+        if (!check(obj)){
+          ons.notification.alert('正しく入力されていない箇所があります');
+        }else{
+        // JSON化
+
         var jsonObj = JSON.stringify(obj, undefined, "\t");
         console.log(jsonObj);
+
+        localStorage.setItem("datalist",jsonObj);
+        ons.notification.alert('情報を更新しました。');
+        }
+        
 };
 
 $(function () {
