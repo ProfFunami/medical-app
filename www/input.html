@@ -274,7 +274,7 @@
         </p>
         <p>
           <h3>母語および母語以外に対応可能な言語</h3>
-          <ons-input style="width: 600px;" id="language" modifier="underbar" placeholder="English, Japanese, ..." float></ons-input>
+          <ons-input style="width: 80%;" id="language" modifier="underbar" placeholder="English, Japanese, ..." float></ons-input>
         </p>
         <p>
           <h3>日本での住所と連絡先（在留外国人患者）／滞在先（訪日外国人旅行者患者）</h3>
@@ -292,12 +292,11 @@
           <h3>医療保険加入の有無（公的および民間）</h3>
             <label class="left">
               <ons-radio name="color" input-id="medical_insurance1" value="YES" checked></ons-radio>
-            </label>
+            
             <label for="medical_insurance1" class="center">
               <span style="margin-right:100px;">YES</span>
             </label>
           
-            <label class="left">
               <ons-radio name="color" input-id="medical_insurance2" value="NO"></ons-radio>
             </label>
             <label for="medical_insurance2" class="center"> 
@@ -321,7 +320,7 @@
           <textarea id="others" style="width: 600px;" class="textarea" rows="4" placeholder=""></textarea>
         </p>
         <p style="margin-top: 30px;">
-            <ons-button onclick="login()">登録</ons-button>
+            <ons-button id="regist">登録</ons-button>
         </p>
     </div>
 </ons-page>

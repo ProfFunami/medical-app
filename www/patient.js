@@ -23,6 +23,26 @@ HospitalContractInstance.events.StartExamination({}, function(error, event){
 	localStorage.setItem("contractAddress", event.returnValues.contractAddress);
 });
 
+$(function regist(){
+    const obj = {
+            "name": $('#name').val(),
+            "country": $('#country').val(),
+            "language": $('#language').val(),
+            "destination": $('#destination').val(),
+            "work place": $('#work_place').val(),
+            "length of stay": $('#length_of_stay').val(),
+            "medical insurance": $('#medical_insurance').val(),
+            "method of payment": $('#method_of_paymnt').val(),
+            "religious requests": $('#religious_requests').val(),
+            "emergency contact": $('#emergency_contact').val(),
+            "acquaintance": $('#acquaintance').val(),
+            "others": $('#others').val()
+        };
+        
+        //JSON化
+        var jsonObj = JSON.stringify(obj, undefined, "\t");
+        console.log(jsonObj)
+});
 
 $(function () {
     $("button[name='size']").on("click", function (e) {
