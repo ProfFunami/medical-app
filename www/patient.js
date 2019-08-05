@@ -23,7 +23,7 @@ HospitalContractInstance.events.StartExamination({}, function(error, event){
 	localStorage.setItem("contractAddress", event.returnValues.contractAddress);
 });
 
-$(function regist(){
+function regist() {
     const obj = {
             "name": $('#name').val(),
             "country": $('#country').val(),
@@ -41,8 +41,8 @@ $(function regist(){
         
         //JSON化
         var jsonObj = JSON.stringify(obj, undefined, "\t");
-        console.log(jsonObj)
-});
+        console.log(jsonObj);
+};
 
 $(function () {
     $("button[name='size']").on("click", function (e) {

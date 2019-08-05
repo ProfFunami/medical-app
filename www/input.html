@@ -1,19 +1,4 @@
 <ons-page id="page1">
-<script>
-  var login = function() {
-  var username = document.getElementById('username').value;
-  var password = document.getElementById('password').value;
-
-  if (username === 'bob' && password === 'secret') {
-    ons.notification.alert('Congratulations!');
-  } else {
-    ons.notification.alert('Incorrect username or password.');
-  }
-};
-</script>
-
-
-<ons-page>
     <div style="text-align: left; margin-top: 30px; margin-left: 30px;">
         <p>
           <h3>名前（アルファベット表記）</h3>
@@ -320,7 +305,8 @@
           <textarea id="others" style="width: 600px;" class="textarea" rows="4" placeholder=""></textarea>
         </p>
         <p style="margin-top: 30px;">
-            <ons-button id="regist">登録</ons-button>
+            <ons-button onclick="regist()">登録</ons-button>
         </p>
     </div>
+
 </ons-page>
