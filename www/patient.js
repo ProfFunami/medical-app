@@ -23,29 +23,8 @@ HospitalContractInstance.events.StartExamination({}, function(error, event){
 	localStorage.setItem("contractAddress", event.returnValues.contractAddress);
 });
 
-function check(obj){
-  for(let k of Object.keys(obj)) {
-    if(k=="length of stay"||
-    k=="religious requests"||
-    k=="acquaintance"||
-    k=="others") {continue;}
-    else if(obj[k]==""||obj[k]==null){
-      return false;
-    }
-  }
-  return true;
-}
-
-function buttonClick(_radio) {
-    for(var i = 0; i < _radio.length; i++) {
-        if(_radio[i].checked) {
-          return _radio[i].value
-        }
-    }
-}
-
-function regist() {
-    const obj = {
+function defObj(){
+  return obj = {
             "name": $('#name').val(),
             "country": $('#country').val(),
             "language": $('#language').val(),
@@ -59,20 +38,74 @@ function regist() {
             "acquaintance": $('#acquaintance').val(),
             "others": $('#others').val()
         };
+}
 
+function backCheck(){
+  const latestObj = localStorage.getItem("datalist");
+  console.log("latest: "+ latestObj);
+  const nowObj = JSON.stringify(defObj(), undefined, "\t");
+  console.log("now: "+nowObj);
+  if(latestObj===nowObj){
+      //トップ画面に戻る
+  }else{
+      var dialog = document.getElementById('my-alert-dialog');
 
+      if (dialog) {
+        dialog.show();
+      } else {
+        ons.createElement('alert-dialog.html', { append: true })
+          .then(function(dialog) {
+            dialog.show();
+          });
+      }
+  }
+}
+
+function saveCancel() {
+  hideAlertDialog();
+}
+
+function saveAccept() {
+  hideAlertDialog();
+  regist();
+}
+
+var hideAlertDialog = function() {
+  document
+    .getElementById('my-alert-dialog')
+    .hide();
+};
+
+function check(obj){
+  for(let k of Object.keys(obj)) {
+    if(k=="length of stay"||k=="religious requests"||k=="acquaintance"||k=="others") {continue;}
+    else if(obj[k]==""||obj[k]==null){
+      return false;
+    }
+  }
+  return true; 
+}
+
+function buttonClick(_radio) {
+    for(var i = 0; i < _radio.length; i++) {
+        if(_radio[i].checked) {
+          return _radio[i].value
+        }
+    }
+}
+
+function regist() {
+    const obj = defObj();
         if (!check(obj)){
           ons.notification.alert('正しく入力されていない箇所があります');
         }else{
         // JSON化
-
         var jsonObj = JSON.stringify(obj, undefined, "\t");
         console.log(jsonObj);
 
         localStorage.setItem("datalist",jsonObj);
         ons.notification.alert('情報を更新しました。');
         }
-        
 };
 
 $(function () {

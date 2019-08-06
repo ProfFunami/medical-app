@@ -1,8 +1,17 @@
 <ons-page id="page1">
+    <ons-toolbar>
+    <div class="left">
+      <ons-toolbar-button icon="fa-chevron-left" onclick="backCheck()"></ons-toolbar-button>
+    </div>
+    <div class="center">マイデータを編集</div>
+    <div class="right">
+      <ons-toolbar-button onclick="regist()">完了</ons-toolbar-button>
+    </div>
+  </ons-toolbar>
     <div style="text-align: left; margin-top: 30px; margin-left: 30px;">
         <p>
           <h3>名前（アルファベット表記）</h3>
-            <ons-input style="width: 300px;" id="name" modifier="underbar" placeholder="Name Surname" float></ons-input>
+            <ons-input style="width: 80%;" id="name" modifier="underbar" placeholder="Name Surname" float></ons-input>
         </p>
         <p>
           <h3>国籍</h3>
@@ -263,15 +272,15 @@
         </p>
         <p>
           <h3>日本での住所と連絡先（在留外国人患者）／滞在先（訪日外国人旅行者患者）</h3>
-          <ons-input style="width: 600px;" id="destination" modifier="underbar" placeholder="1-1, Ootemachi, Chiyoda, Tokyo, Japan" float></ons-input>
+          <ons-input style="width: 80%;" id="destination" modifier="underbar" placeholder="1-1, Ootemachi, Chiyoda, Tokyo, Japan" float></ons-input>
         </p>
         <p>
           <h3>勤務先</h3>
-          <ons-input style="width: 600px;" id="work_place" modifier="underbar" placeholder="University of Tsukuba" float></ons-input>
+          <ons-input style="width: 80%;" id="work_place" modifier="underbar" placeholder="University of Tsukuba" float></ons-input>
         </p>
         <p>
           <h3>日本での滞在期間（訪日外国人旅行者の場合）</h3>
-          <ons-input style="width: 600px;" id="length_of_stay" modifier="underbar" placeholder="3 days" float></ons-input>
+          <ons-input style="width: 80%;" id="length_of_stay" modifier="underbar" placeholder="3 days" float></ons-input>
         </p>
         <p>
           <h3>医療保険加入の有無（公的および民間）</h3>
@@ -286,30 +295,43 @@
             <label for="medical_insurance2" class="center"> 
               NO
             </label>
+
+
         </p>
         <p>
           <h3>支払い方法</h3>
-          <ons-input style="width: 600px;" id="method_of_paymnt" modifier="underbar" placeholder="EC20" float></ons-input>
+          <ons-input style="width: 80%;" id="method_of_paymnt" modifier="underbar" placeholder="EC20" float></ons-input>
         </p>
         <p>
           <h3>宗教上の要望</h3>
-          <ons-input style="width: 600px;" id="religious_requests" modifier="underbar" placeholder="prohibit blood transfusion" float></ons-input>
+          <ons-input style="width: 80%;" id="religious_requests" modifier="underbar" placeholder="prohibit blood transfusion" float></ons-input>
         </p>
         <p>
           <h3>緊急連絡先</h3>
-          <ons-input type="number" style="width: 600px;" id="emergency_contact" modifier="underbar" placeholder="080XXXXXXXX" float></ons-input>
+          <ons-input type="number" style="width: 80%;" id="emergency_contact" modifier="underbar" placeholder="080XXXXXXXX" float></ons-input>
         </p>
         <p>
           <h3>宿泊事業者や知人等、付添者の連絡先（訪日外国人旅行者患者の場合）</h3>
-          <ons-input style="width: 600px;" id="acquaintance" modifier="underbar" placeholder="080YYYYYYYY" float></ons-input>
+          <ons-input type="number" style="width: 80%;" id="acquaintance" modifier="underbar" placeholder="080YYYYYYYY" float></ons-input>
         </p>
         <p>
           <h3>その他備考</h3>
-          <textarea id="others" style="width: 600px;" class="textarea" rows="4" placeholder=""></textarea>
+          <textarea id="others" style="width: 80%;" class="textarea" rows="4" placeholder=""></textarea>
         </p>
-        <p style="margin-top: 30px;">
-            <ons-button onclick="regist()">登録</ons-button>
+        <p style="margin: 10%;">
+            <ons-button modifier="large" onclick="regist()">登録</ons-button>
         </p>
     </div>
-
+<template id="alert-dialog.html">
+  <ons-alert-dialog id="my-alert-dialog" modifier="rowfooter">
+    <div class="alert-dialog-title">編集内容が保存されていません</div>
+    <div class="alert-dialog-content">
+      保存しますか？<br>
+    </div>
+    <div class="alert-dialog-footer">
+      <ons-alert-dialog-button onclick="saveCancel()">いいえ</ons-alert-dialog-button>
+      <ons-alert-dialog-button onclick="saveAccept()"><b>はい</b></ons-alert-dialog-button>
+    </div>
+  </ons-alert-dialog>
+</template>
 </ons-page>
