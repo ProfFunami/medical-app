@@ -113,7 +113,7 @@ function regist() {
         localStorage.setItem("datalist",jsonObj);
         ons.notification.alert('情報を更新しました。');
         //元のページに戻る
-        myNavigator.popPage({ animation : 'slide' } );
+        popPage1();
         }
 };
 
