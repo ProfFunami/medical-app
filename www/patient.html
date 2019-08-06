@@ -50,12 +50,12 @@
       あなたの情報を登録しましょう
     </div>
     <div class="alert-dialog-footer">
-      <ons-alert-dialog-button onclick=pushPage1("./input.html","slide");"hideAlertDialog2()"><b>OK</b></ons-alert-dialog-button>
+      <ons-alert-dialog-button onclick="hideAlertDialog2()";pushPage1("./input.html","slide");><b>OK</b></ons-alert-dialog-button>
     </div>
   </ons-alert-dialog>
 </template>
 <script>
-ons.getScriptPage().onInit = function (){
+ons.getScriptPage().onShow = function (){
   //obj:json
   const jsonObj = localStorage.getItem("datalist");
   if(jsonObj==null){
