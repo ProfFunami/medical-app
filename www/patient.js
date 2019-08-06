@@ -25,18 +25,18 @@ HospitalContractInstance.events.StartExamination({}, function(error, event){
 
 function defObj(){
   return obj = {
-            "name": $('#name').val(),
-            "country": $('#country').val(),
-            "language": $('#language').val(),
-            "destination": $('#destination').val(),
-            "work place": $('#work_place').val(),
-            "length of stay": $('#length_of_stay').val(),
-            "medical insurance": buttonClick(document.getElementsByName('yn')),
-            "method of payment": $('#method_of_paymnt').val(),
-            "religious requests": $('#religious_requests').val(),
-            "emergency contact": $('#emergency_contact').val(),
-            "acquaintance": $('#acquaintance').val(),
-            "others": $('#others').val()
+            name: $('#name').val(),
+            country: $('#country').val(),
+            language: $('#language').val(),
+            destination: $('#destination').val(),
+            work_place: $('#work_place').val(),
+            length_of_stay: $('#length_of_stay').val(),
+            medical_insurance: buttonClick(document.getElementsByName('yn')),
+            method_of_payment: $('#method_of_payment').val(),
+            religious_requests: $('#religious_requests').val(),
+            emergency_contact: $('#emergency_contact').val(),
+            acquaintance: $('#acquaintance').val(),
+            others: $('#others').val()
         };
 }
 
@@ -47,9 +47,9 @@ function backCheck(){
   console.log("now: "+nowObj);
   if(latestObj===nowObj){
       //トップ画面に戻る
+      popPage1();
   }else{
       var dialog = document.getElementById('my-alert-dialog');
-
       if (dialog) {
         dialog.show();
       } else {
@@ -76,10 +76,17 @@ var hideAlertDialog = function() {
     .hide();
 };
 
+var hideAlertDialog2 = function() {
+  document
+    .getElementById('my-alert-dialog-init')
+    .hide();
+};
+
 function check(obj){
   for(let k of Object.keys(obj)) {
-    if(k=="length of stay"||k=="religious requests"||k=="acquaintance"||k=="others") {continue;}
+    if(k=="length_of_stay"||k=="religious_requests"||k=="acquaintance"||k=="others") {continue;}
     else if(obj[k]==""||obj[k]==null){
+      console.log(k);
       return false;
     }
   }
@@ -97,6 +104,7 @@ function buttonClick(_radio) {
 function regist() {
     const obj = defObj();
         if (!check(obj)){
+          console.log(obj);
           ons.notification.alert('正しく入力されていない箇所があります');
         }else{
         // JSON化
@@ -113,18 +121,18 @@ $(function () {
     $("button[name='size']").on("click", function (e) {
         e.preventDefault();
         const obj = {
-            "name": $('#name').val(),
-            "country": $('#country').val(),
-            "language": $('#language').val(),
-            "destination": $('#destination').val(),
-            "work place": $('#work_place').val(),
-            "length of stay": $('#length_of_stay').val(),
-            "medical insurance": $('#medical_insurance').val(),
-            "method of payment": $('#method_of_paymnt').val(),
-            "religious requests": $('#religious_requests').val(),
-            "emergency contact": $('#emergency_contact').val(),
-            "acquaintance": $('#acquaintance').val(),
-            "others": $('#others').val()
+            name: $('#name').val(),
+            country: $('#country').val(),
+            language: $('#language').val(),
+            destination: $('#destination').val(),
+            work_place: $('#work_place').val(),
+            length_of_stay: $('#length_of_stay').val(),
+            medical_insurance: $('#medical_insurance').val(),
+            method_of_payment: $('#method_of_paymnt').val(),
+            religious_requests: $('#religious_requests').val(),
+            emergency_contact: $('#emergency_contact').val(),
+            acquaintance: $('#acquaintance').val(),
+            others: $('#others').val()
         };
         //JSON化
         var jsonObj = JSON.stringify(obj, undefined, "\t");
@@ -164,8 +172,4 @@ $("#setMedicalCostButton").on("click", function (e) {
     });
 });
 
-$(function dispInfo() {
-  //obj:json
-  const obj = localStorage.getItem("datalist");
 
-});

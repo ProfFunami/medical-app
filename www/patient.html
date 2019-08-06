@@ -5,4 +5,86 @@
       <ons-toolbar-button onclick=pushPage1("./input.html","slide")>編集</ons-toolbar-button>
     </div>
   </ons-toolbar>
+  <ons-list>
+    <ons-list-header>名前（アルファベット表記）</ons-list-header>
+    <ons-list-item id="_name" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>国籍</ons-list-header>
+    <ons-list-item id="_country" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>宗教上の要望</ons-list-header>
+    <ons-list-item id="_religious_requests" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>母語および母語以外に対応可能な言語</ons-list-header>
+    <ons-list-item id="_language" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>日本での住所と連絡先（在留外国人患者）／滞在先（訪日外国人旅行者患者）</ons-list-header>
+    <ons-list-item id="_destination" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>勤務先</ons-list-header>
+    <ons-list-item id="_work_place" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>日本での滞在期間（訪日外国人旅行者の場合）</ons-list-header>
+    <ons-list-item id="_length_of_stay" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>医療保険加入の有無（公的および民間）</ons-list-header>
+    <ons-list-item id="_medical_insurance" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>支払い方法</ons-list-header>
+    <ons-list-item id="_method_of_payment" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>緊急連絡先</ons-list-header>
+    <ons-list-item id="_emergency_contact" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>宿泊事業者や知人等、付添者の連絡先（訪日外国人旅行者患者の場合）</ons-list-header>
+    <ons-list-item id="_acquaintance" style="margin:1%"></ons-list-item>
+
+    <ons-list-header>その他備考</ons-list-header>
+    <ons-list-item id="_others" style="margin:1%"></ons-list-item>        
+
+  </ons-list>
+<template id="alert-dialog-init.html">
+  <ons-alert-dialog id="my-alert-dialog-init" modifier="rowfooter">
+    <div class="alert-dialog-title">Welcome</div>
+    <div class="alert-dialog-content">
+      あなたの情報を登録しましょう
+    </div>
+    <div class="alert-dialog-footer">
+      <ons-alert-dialog-button onclick=pushPage1("./input.html","slide");"hideAlertDialog2()"><b>OK</b></ons-alert-dialog-button>
+    </div>
+  </ons-alert-dialog>
+</template>
+<script>
+ons.getScriptPage().onInit = function (){
+  //obj:json
+  const jsonObj = localStorage.getItem("datalist");
+  if(jsonObj==null){
+      var dialog = document.getElementById('my-alert-dialog-init');
+      if (dialog) {
+        dialog.show();
+      } else {
+        ons.createElement('alert-dialog-init.html', { append: true })
+          .then(function(dialog) {
+            dialog.show();
+          });
+      }
+  }else{
+      const obj = JSON.parse(jsonObj);
+      console.log(obj);
+      $('#_name').text(obj.name);
+      $('#_country').text(obj.country);
+      $('#_religious_requests').text(obj.religious_requests);
+      $('#_language').text(obj.language);
+      $('#_destination').text(obj.destination);
+      $('#_work_place').text(obj.work_place);
+      $('#_length_of_stay').text(obj.length_of_stay);
+      $('#_medical_insurance').text(obj.medical_insurance);
+      $('#_method_of_payment').text(obj.method_of_payment);
+      $('#_emergency_contact').text(obj.emergency_contact);
+      $('#_acquaintance').text(obj.acquaintance);
+      $('#_others').text(obj.others);
+  }
+};
+</script>
+
 </ons-page>
