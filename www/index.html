@@ -19,11 +19,14 @@
 </head>
 <body>
 <script>
-    function pushPage1(path){
-      $('#myNavigator')[0].pushPage(path);
+    function pushPage1(path,anim){
+      $('#myNavigator1')[0].pushPage(path, { animation: anim});
     }
     function pushPage2(path){
-      $('#myNavigator2')[0].pushPage(path);
+      $('#myNavigator1-1')[0].pushPage(path);
+    }
+    function popPage1(){
+      $('#myNavigator1')[0].popPage({ animation : 'slide' } )
     }
     // navigator両方からアクセスするの面倒なのでグローバル変数にしてしまった
     let passportNo = "";
@@ -40,7 +43,11 @@
 </script>
 
 <template id="navi1.html">
-  <ons-navigator animation="lift" id="myNavigator" page="./input.html"></ons-navigator>
+  <ons-navigator animation="lift" id="myNavigator1" page="./patient.html"></ons-navigator>
+</template>
+
+<template id="navi1-1.html">
+  <ons-navigator animation="lift" id="myNavigator1-1" page="./input.html"></ons-navigator>
 </template>
 
 <ons-modal id="modal">

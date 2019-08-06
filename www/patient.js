@@ -63,8 +63,8 @@ function backCheck(){
 
 function saveCancel() {
   hideAlertDialog();
+  popPage1();
 }
-
 function saveAccept() {
   hideAlertDialog();
   regist();
@@ -102,9 +102,10 @@ function regist() {
         // JSON化
         var jsonObj = JSON.stringify(obj, undefined, "\t");
         console.log(jsonObj);
-
         localStorage.setItem("datalist",jsonObj);
         ons.notification.alert('情報を更新しました。');
+        //元のページに戻る
+        myNavigator.popPage({ animation : 'slide' } );
         }
 };
 
@@ -161,4 +162,10 @@ $("#setMedicalCostButton").on("click", function (e) {
         height: 200,
         text: cost_sign,
     });
+});
+
+$(function dispInfo() {
+  //obj:json
+  const obj = localStorage.getItem("datalist");
+
 });
