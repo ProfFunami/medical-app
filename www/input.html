@@ -11,7 +11,7 @@
     <div style="text-align: left; margin-top: 30px; margin-left: 30px;">
         <p>
           <h3>名前（アルファベット表記）</h3>
-            <ons-input style="width: 80%;" id="name" modifier="underbar" placeholder="Name Surname" float></ons-input>
+            <ons-input style="width: 80%;" id="name" modifier="underbar" placeholder="e.g.:Name Surname" float></ons-input>
         </p>
         <p>
           <h3>国籍</h3>
@@ -268,23 +268,23 @@
         </p>
         <p>
           <h3>宗教上の要望</h3>
-          <ons-input style="width: 80%;" id="religious_requests" modifier="underbar" placeholder="prohibit blood transfusion" float></ons-input>
+          <ons-input style="width: 80%;" id="religious_requests" modifier="underbar" placeholder="e.g.:prohibit blood transfusion" float></ons-input>
         </p>
         <p>
           <h3>母語および母語以外に対応可能な言語</h3>
-          <ons-input style="width: 80%;" id="language" modifier="underbar" placeholder="English, Japanese, ..." float></ons-input>
+          <ons-input style="width: 80%;" id="language" modifier="underbar" placeholder="e.g.:English, Japanese, ..." float></ons-input>
         </p>
         <p>
           <h3>日本での住所と連絡先（在留外国人患者）／滞在先（訪日外国人旅行者患者）</h3>
-          <ons-input style="width: 80%;" id="destination" modifier="underbar" placeholder="1-1, Ootemachi, Chiyoda, Tokyo, Japan" float></ons-input>
+          <ons-input style="width: 80%;" id="destination" modifier="underbar" placeholder="e.g.:1-1, Ootemachi, Chiyoda, Tokyo, Japan" float></ons-input>
         </p>
         <p>
           <h3>勤務先</h3>
-          <ons-input style="width: 80%;" id="work_place" modifier="underbar" placeholder="University of Tsukuba" float></ons-input>
+          <ons-input style="width: 80%;" id="work_place" modifier="underbar" placeholder="e.g.:University of Tsukuba" float></ons-input>
         </p>
         <p>
           <h3>日本での滞在期間（訪日外国人旅行者の場合）</h3>
-          <ons-input style="width: 80%;" id="length_of_stay" modifier="underbar" placeholder="3 days" float></ons-input>
+          <ons-input style="width: 80%;" id="length_of_stay" modifier="underbar" placeholder="e.g.:3 days" float></ons-input>
         </p>
         <p>
           <h3>医療保険加入の有無（公的および民間）</h3>
@@ -302,15 +302,15 @@
         </p>
         <p>
           <h3>支払い方法</h3>
-          <ons-input style="width: 80%;" id="method_of_payment" modifier="underbar" placeholder="EC20" float></ons-input>
+          <ons-input style="width: 80%;" id="method_of_payment" modifier="underbar" placeholder="e.g.:EC20" float></ons-input>
         </p>
         <p>
           <h3>緊急連絡先</h3>
-          <ons-input type="number" style="width: 80%;" id="emergency_contact" modifier="underbar" placeholder="080XXXXXXXX" float></ons-input>
+          <ons-input type="number" style="width: 80%;" id="emergency_contact" modifier="underbar" placeholder="e.g.:080XXXXXXXX" float></ons-input>
         </p>
         <p>
           <h3>宿泊事業者や知人等、付添者の連絡先（訪日外国人旅行者患者の場合）</h3>
-          <ons-input type="number" style="width: 80%;" id="acquaintance" modifier="underbar" placeholder="080YYYYYYYY" float></ons-input>
+          <ons-input type="number" style="width: 80%;" id="acquaintance" modifier="underbar" placeholder="e.g.:080YYYYYYYY" float></ons-input>
         </p>
         <p>
           <h3>その他備考</h3>
@@ -332,4 +332,36 @@
     </div>
   </ons-alert-dialog>
 </template>
+<script>
+ons.getScriptPage().onInit = function (){
+  //obj:json
+  const jsonObj = localStorage.getItem("datalist");
+  if(jsonObj==null){
+      var dialog = document.getElementById('my-alert-dialog-init');
+      if (dialog) {
+        dialog.show();
+      } else {
+        ons.createElement('alert-dialog-init.html', { append: true })
+          .then(function(dialog) {
+            dialog.show();
+          });
+      }
+  }else{
+      const obj = JSON.parse(jsonObj);
+      console.log(obj);
+      $('#name').val(obj.name);
+      $('#country').val(obj.country);
+      $('#religious_requests').val(obj.religious_requests);
+      $('#language').val(obj.language);
+      $('#destination').val(obj.destination);
+      $('#work_place').val(obj.work_place);
+      $('#length_of_stay').val(obj.length_of_stay);
+      $('#medical_insurance').val(obj.medical_insurance);
+      $('#method_of_payment').val(obj.method_of_payment);
+      $('#emergency_contact').val(obj.emergency_contact);
+      $('#acquaintance').val(obj.acquaintance);
+      $('#others').val(obj.others);
+  }
+};
+</script>
 </ons-page>
