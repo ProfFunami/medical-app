@@ -1,72 +1,63 @@
-<ons-page id="transactionList">
-    <ons-toolbar>
-      <div class="center">受付リスト</div>
-      <div class="right"><ons-button modifier="quiet" onclick="getExaminationList()"><ons-icon icon="fa-refresh" size="25px"></ons-icon></ons-button></div>
-    </ons-toolbar>
-    <ons-card><ons-search-input id="inputSearch" placeholder="パスポート番号で検索(未実装)"></ons-search-input></ons-card>
-    <div id="list">
-        <!-- ここに入る -->
-    </div>
+<ons-page id=“medicalCostSign”>
+   <ons-toolbar>
+     <div class=“center”>診察料金署名</div>
+     <div class=“right”><ons-button modifier=“quiet” onclick=“getExaminationList()“><ons-icon icon=“fa-refresh” size=“25px”></ons-icon></ons-button></div>
+   </ons-toolbar>
+   <div style=“text-align: center; margin-top: 30px;“>
+     <p>
+       <div id=“medicalFeeSignInput” >病院側から提示される料金が表示されます</div>
+     </p>
+     <p style=“margin-top: 30px;“>
+       <ons-button id=“medicalFeeSignButton”>署名の発行</ons-button>
+     </p>
+     <p id=“setMedicalCostQrcode”></p>
+   </div>
 
 <script>
+// イベントのキャッチ設定
+hospitalContractInstance.events.StartExamination({}, function(error, event){
+ showModal(“病院側から金額入力中です“);
+    if(event.returnValues.patientAddress == myAddress){
+       examinationContractAddress = event.returnValues.contractAddress;
+       localStorage.setItem(“contractAddress”, examinationContractAddress);
+       examinationContractInstance.options.address = examinationContractAddress;
+       set();
+    };
+ hideModal();
+});
+let medicalCost;
+async function set() {
+ tokenData = await examinationContractInstance.methods.getTokenData().call({from: myAddress});
+ examinationContractInstance.events.SetMedicalCost({}, function(error, event){
+   medicalCost = event.returnValues.medicalCost;
+   $(‘#medicalFeeSignInput’).text((medicalCost/10**tokenData[2])+tokenData[1]);
+ });
+}
+function sign(message){
+ let result = web3.eth.accounts.sign(message, myPrivateKey);
+ return result.signature;
+};
+$(“#medicalFeeSignButton”).on(“click”, function (e) {
+ e.preventDefault();
+ medicalCost_sign = sign(String(medicalCost));
+ console.log(medicalCost)
+ console.log(medicalCost_sign);
+ $(‘#setMedicalCostQrcode’).html(“”).qrcode({
+   width: 200,
+   height: 200,
+   text: medicalCost_sign,
+ });
+});
 ons.getScriptPage().onInit = function () {
-  let flag = true;
-  // onInitはアプリ起動時なのでmodalの表示がずれる
-  this.onShow = function (){
-    if(flag){
-      getExaminationList();
-      flag = false;
-    }
-  }
+ let flag = true;
+ // onInitはアプリ起動時なのでmodalの表示がずれる
+ this.onShow = function (){
+   if(flag){
+     getExaminationList();
+     flag = false;
+   }
+ }
 }
 
-let examinationList;
-let condition = function (value, index) {
-  // indexof(this) > 0で探す?
-	if( value[1] == this ) {
-		return true;
-	} else {
-		return false;
-	}
-}
-// keydown時のキーコードを保存する変数.
-var keyDownCode = 0
-// keydownイベント
-$('#inputSearch').keydown(function (e) {
-    // 押下されたキーコードを取得.
-    keyDownCode = e.which
-})
-// keyupイベント
-$('#inputSearch').keyup(function (e) {
-    if ( 13 == e.which && e.which == keyDownCode ) {
-        console.log("kensaku");
-    }
-    return false
-})
-
-function search(){
-    console.log($("#inputSearch").val());
-    console.log(examinationList.findIndex(condition,$("#inputSearch").val()));
-}
-
-async function getExaminationList(){
-    showModal("Fetch List...");
-    $("#list").empty();
-    examinationList = await hospitalContractInstance.methods.getExaminationList().call({from: myAddress});
-    examinationList.forEach(function(transaction) {
-      let decryptedPassportNo = CryptoJS.AES.decrypt(transaction[0], myPassPhrase).toString(CryptoJS.enc.Utf8);
-      // timestampをミリ秒に変換
-      let dt = new Date(transaction[2]*1000);
-      let date = String(dt.getFullYear()) + "年" + String(dt.getMonth()+1) + "月" + String(dt.getDate()) + "日" + String(dt.getHours()) + "時" + String(dt.getMinutes()) + "分";
-      $("#list").append("<ons-card onclick='test(\""+transaction[1]+"\",\""+decryptedPassportNo+"\")' style='color: blue;'><h3>" + date + "　　" + decryptedPassportNo  + "　　何らかの情報" + "</h3></ons-card>");
-    });
-    hideModal();
-};
-
-function test(examinationContractAddress, decryptedPassportNo){ 
-  examinationContractInstance.options.address = examinationContractAddress;
-  passportNo = decryptedPassportNo;
-  pushPage2('./detail.html');
-};
 </script>
 </ons-page>
