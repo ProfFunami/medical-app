@@ -1,0 +1,23 @@
+<ons-page id="page2">
+    <ons-toolbar>
+    <div class="center">コードを表示</div>
+  </ons-toolbar>
+  <div style="text-align: left; margin-top: 30px; margin-left: 30px;">
+  <p>
+  <h2>病院に提示する、あなたの情報を持ったQRコード発行します。</h2>
+  </p>
+  <p style="margin-left: 10%;margin-right: 10%">
+  <ons-button modifier="large" onclick="makeqr()" style="text-align: center">QRコードを生成する</ons-button>
+  </p>
+  <div id="qrcode" style="text-align: center"></div>
+  </div>
+
+<script>
+  ons.getScriptPage().onShow = function (){
+
+    
+
+  };
+</script>
+
+  </ons-page>

@@ -117,6 +117,30 @@ function regist() {
         }
 };
 
+function makeqr(){
+  const jsonObj=localStorage.getItem("datalist");
+  // 暗号化キー
+  var txt_key = "0123456789ABCDEF0123456789ABCDEF";
+  console.log('original_strngs: ' + jsonObj);
+  var utf8_plain = CryptoJS.enc.Utf8.parse(jsonObj);
+  // 暗号化
+  var encrypted = CryptoJS.AES.encrypt(utf8_plain, txt_key);
+  var encrypted_strings = txt_key + "," + encrypted.toString();
+
+  //署名
+  const source = encrypted_strings + "," + sign(encrypted.toString());
+  console.log('source: ' + source);
+  try {
+      $('#qrcode').html("").qrcode({
+          width: 400,
+          height: 400,
+          text: source,
+      });
+  } catch (e) {
+      $('#qrcode').html("").append("文字数オーバーです：<br>" + e);
+  }
+}
+
 $(function () {
     $("button[name='size']").on("click", function (e) {
         e.preventDefault();

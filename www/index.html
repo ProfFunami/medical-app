@@ -16,6 +16,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.qrcode/1.0/jquery.qrcode.min.js"></script>
   <script src="./aes.js"></script>
 	<script src="./patient.js"></script>
+  <script src="./hospital.js"></script>
 </head>
 <body>
 <script>
@@ -50,6 +51,14 @@
   <ons-navigator animation="lift" id="myNavigator1-1" page="./input.html"></ons-navigator>
 </template>
 
+<template id="navi2.html">
+  <ons-navigator animation="lift" id="myNavigator2" page="./dispqr.html"></ons-navigator>
+</template>
+
+<template id="navi3.html">
+  <ons-navigator animation="lift" id="myNavigator3" page="./list.html"></ons-navigator>
+</template>
+
 <ons-modal id="modal">
   <div style="text-align: center">
     <h2 id="modalText">Deploying...</h2>
@@ -63,9 +72,17 @@
             icon="fa-user"
             label="トップ"
             page="navi1.html"></ons-tab>
+          <ons-tab
+            icon="fa-qrcode"
+            label="コードを表示"
+            page="navi2.html"></ons-tab>
+          <ons-tab
+            icon="fa-money-check-alt"
+            label="決済"
+            page="navi3.html"></ons-tab>
         <ons-tab
             icon="fa-cog"
-            label="Setting" 
+            label="設定" 
             page="./setting.html"></ons-tab>
     </ons-tabbar>
 

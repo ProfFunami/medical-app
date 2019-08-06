@@ -1,4 +1,4 @@
-const web3 = new Web3('wss://rinkeby.infura.io/ws/v3/cf93a80dccb7456d806de40695023f72');
+// const web3 = new Web3('wss://rinkeby.infura.io/ws/v3/cf93a80dccb7456d806de40695023f72');
 
 const hospitalContractInstance  = new web3.eth.Contract(HospitalContractABI, HospitalContractAddress);
 const examinationContractInstance = new web3.eth.Contract(ExaminationContractABI);
@@ -14,7 +14,6 @@ let myAddress = localStorage.getItem('address');
 
 // ブラウザのローカルストレージからCryptoJS.AES256用のパスフレーズ読み込み
 let myPassPhrase = localStorage.getItem('passPhrase');
-
 
 
 // 初回起動

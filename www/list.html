@@ -1,48 +1,48 @@
-<ons-page id=“medicalCostSign”>
+<ons-page id="medicalCostSign">
    <ons-toolbar>
-     <div class=“center”>診察料金署名</div>
-     <div class=“right”><ons-button modifier=“quiet” onclick=“getExaminationList()“><ons-icon icon=“fa-refresh” size=“25px”></ons-icon></ons-button></div>
+     <div class="center">診察料金署名</div>
+     <div class="right"><ons-button modifier="quiet" onclick="getExaminationList()"><ons-icon icon="fa-refresh" size="25px"></ons-icon></ons-button></div>
    </ons-toolbar>
-   <div style=“text-align: center; margin-top: 30px;“>
+   <div style="text-align: center; margin-top: 30px;">
      <p>
-       <div id=“medicalFeeSignInput” >病院側から提示される料金が表示されます</div>
+       <div id="medicalFeeSignInput" >病院側から提示される料金が表示されます</div>
      </p>
-     <p style=“margin-top: 30px;“>
-       <ons-button id=“medicalFeeSignButton”>署名の発行</ons-button>
+     <p style="margin-top: 30px;">
+       <ons-button id="medicalFeeSignButton">署名の発行</ons-button>
      </p>
-     <p id=“setMedicalCostQrcode”></p>
+     <p id="setMedicalCostQrcode"></p>
    </div>
 
 <script>
 // イベントのキャッチ設定
 hospitalContractInstance.events.StartExamination({}, function(error, event){
- showModal(“病院側から金額入力中です“);
+ showModal("病院側から金額入力中です");
     if(event.returnValues.patientAddress == myAddress){
        examinationContractAddress = event.returnValues.contractAddress;
-       localStorage.setItem(“contractAddress”, examinationContractAddress);
+       localStorage.setItem("contractAddress", examinationContractAddress);
        examinationContractInstance.options.address = examinationContractAddress;
        set();
     };
  hideModal();
 });
-let medicalCost;
+
 async function set() {
  tokenData = await examinationContractInstance.methods.getTokenData().call({from: myAddress});
  examinationContractInstance.events.SetMedicalCost({}, function(error, event){
-   medicalCost = event.returnValues.medicalCost;
-   $(‘#medicalFeeSignInput’).text((medicalCost/10**tokenData[2])+tokenData[1]);
+   let medicalCost = event.returnValues.medicalCost;
+   $('#medicalFeeSignInput').text((medicalCost/10**tokenData[2])+tokenData[1]);
  });
 }
 function sign(message){
  let result = web3.eth.accounts.sign(message, myPrivateKey);
  return result.signature;
 };
-$(“#medicalFeeSignButton”).on(“click”, function (e) {
+$("#medicalFeeSignButton").on("click", function (e) {
  e.preventDefault();
  medicalCost_sign = sign(String(medicalCost));
  console.log(medicalCost)
  console.log(medicalCost_sign);
- $(‘#setMedicalCostQrcode’).html(“”).qrcode({
+ $('#setMedicalCostQrcode').html("").qrcode({
    width: 200,
    height: 200,
    text: medicalCost_sign,
