@@ -80,6 +80,7 @@ var hideAlertDialog2 = function() {
   document
     .getElementById('my-alert-dialog-init')
     .hide();
+  pushPage1("./input.html","slide")
 };
 
 function check(obj){

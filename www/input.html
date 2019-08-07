@@ -336,17 +336,7 @@
 ons.getScriptPage().onShow = function (){
   //obj:json
   const jsonObj = localStorage.getItem("datalist");
-  if(jsonObj==null){
-      var dialog = document.getElementById('my-alert-dialog-init');
-      if (dialog) {
-        dialog.show();
-      } else {
-        ons.createElement('alert-dialog-init.html', { append: true })
-          .then(function(dialog) {
-            dialog.show();
-          });
-      }
-  }else{
+  if(jsonObj!=null){
       const obj = JSON.parse(jsonObj);
       console.log(obj);
       $('#name').val(obj.name);
